@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- feat: create completed Clockify entries
+
 ## 0.4.1
 
 - Rename the integration to Clockify-HA to distinguish it from the official Clockify product.
