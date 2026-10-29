@@ -23,9 +23,7 @@ When Home Assistant Cloud (Nabu Casa) is connected, the integration registers Cl
 
 ### HACS custom repository
 
-**This repository is currently private. HACS cannot use private GitHub repositories ([HACS documentation](https://www.hacs.xyz/docs/faq/private_repositories/)), so use the manual installation below while it remains private.**
-
-Once the repository is public, follow these steps:
+To install through HACS:
 1. Add this repository in HACS as an **Integration** custom repository.
 2. Install **Clockify-HA** and restart Home Assistant.
 3. Open **Settings → Devices & services → Add integration → Clockify-HA**.
