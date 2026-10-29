@@ -74,16 +74,25 @@ class ClockifyApi:
         project_id: str,
         start: datetime,
         description: str,
+        end: datetime | None = None,
+        tag_ids: list[str] | None = None,
     ) -> dict[str, Any]:
-        """Start a timer in the selected workspace."""
+        """Create a completed entry or start a timer in the selected workspace."""
+        payload: dict[str, Any] = {
+            "start": start.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "projectId": project_id,
+            "description": description,
+        }
+        if end is not None:
+            payload["end"] = end.astimezone(timezone.utc).strftime(
+                "%Y-%m-%dT%H:%M:%SZ"
+            )
+        if tag_ids:
+            payload["tagIds"] = tag_ids
         return await self._request(
             "POST",
             f"/workspaces/{workspace_id}/time-entries",
-            {
-                "start": start.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "projectId": project_id,
-                "description": description,
-            },
+            payload,
         )
 
     async def stop_time_entry(

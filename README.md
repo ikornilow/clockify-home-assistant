@@ -9,7 +9,7 @@ A HACS custom integration that reads Clockify time tracking data and exposes it 
 - Active timer description and start/project attributes
 - Today's tracked time for the configured Clockify user and workspace
 - Billable and non-billable time tracked today and this week
-- Start/stop Clockify timers with the `clockify.start_timer` and `clockify.stop_timer` actions
+- Start/stop Clockify timers and create completed entries with the `clockify.start_timer`, `clockify.stop_timer`, and `clockify.create_time_entry` actions
 - UI setup using a Clockify API key and workspace picker
 - Refresh every thirty minutes as a fallback; API key calls use Clockify's documented REST API
 
@@ -42,7 +42,7 @@ Copy `custom_components/clockify` into your Home Assistant `config/custom_compon
 - **Time tracked this week (billable/non-billable)**: durations split by Clockify's entry `billable` flag.
 - **Time-Entry in progress** and **Last Time-Entry**: compatibility data for existing automations.
 
-`clockify.start_timer` accepts optional `project_id`, `description`, and `workspace_id`; `clockify.stop_timer` accepts optional `workspace_id`. Each operation refreshes the sensors after Clockify confirms the change.
+`clockify.start_timer` accepts optional `project_id`, `description`, and `workspace_id`; `clockify.stop_timer` accepts optional `workspace_id`. `clockify.create_time_entry` accepts `project_id`, `start`, `end`, optional `description`, `tag_ids`, and `workspace_id`. Each action refreshes the sensors after Clockify confirms the change.
 
 The integration refreshes four Clockify endpoints every thirty minutes (8 requests/hour). Clockify's free plan limit is 30 API-key requests per hour, including other integrations and automations using the same key.
 

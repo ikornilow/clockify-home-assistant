@@ -156,7 +156,7 @@ def _entry_duration(
 
 
 async def async_setup(hass: HomeAssistant, config: dict[str, object]) -> bool:
-    """Register Clockify timer services."""
+    """Register Clockify service actions."""
 
     async def get_coordinator(call: ServiceCall) -> ClockifyCoordinator:
         coordinators = list(hass.data.get(DOMAIN, {}).values())
@@ -215,8 +215,54 @@ async def async_setup(hass: HomeAssistant, config: dict[str, object]) -> bool:
             raise HomeAssistantError(str(err)) from err
         await coordinator.async_request_refresh()
 
+    def parse_entry_time(value: object, field: str) -> datetime:
+        if isinstance(value, datetime):
+            parsed = value
+        elif isinstance(value, str):
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            except ValueError as err:
+                raise HomeAssistantError(
+                    f"{field} must be an ISO 8601 datetime"
+                ) from err
+        else:
+            raise HomeAssistantError(f"{field} must be an ISO 8601 datetime")
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=ZoneInfo(hass.config.time_zone))
+        return parsed
+
+    async def create_time_entry(call: ServiceCall) -> None:
+        coordinator = await get_coordinator(call)
+        project_id = call.data.get("project_id")
+        if not isinstance(project_id, str) or not project_id:
+            raise HomeAssistantError("Provide project_id")
+        start = parse_entry_time(call.data.get("start"), "start")
+        end = parse_entry_time(call.data.get("end"), "end")
+        if end <= start:
+            raise HomeAssistantError("end must be later than start")
+        raw_tag_ids = call.data.get("tag_ids", [])
+        if isinstance(raw_tag_ids, str):
+            raw_tag_ids = [raw_tag_ids]
+        if not isinstance(raw_tag_ids, list) or any(
+            not isinstance(tag_id, str) or not tag_id for tag_id in raw_tag_ids
+        ):
+            raise HomeAssistantError("tag_ids must be a list of Clockify tag IDs")
+        try:
+            await coordinator.api.create_time_entry(
+                coordinator.workspace_id,
+                project_id=project_id,
+                start=start,
+                end=end,
+                description=str(call.data.get("description") or ""),
+                tag_ids=raw_tag_ids,
+            )
+        except ClockifyApiError as err:
+            raise HomeAssistantError(str(err)) from err
+        await coordinator.async_request_refresh()
+
     hass.services.async_register(DOMAIN, "start_timer", start_timer)
     hass.services.async_register(DOMAIN, "stop_timer", stop_timer)
+    hass.services.async_register(DOMAIN, "create_time_entry", create_time_entry)
     return True
 
 

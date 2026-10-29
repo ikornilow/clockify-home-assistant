@@ -30,3 +30,38 @@ stop_timer:
       required: false
       selector:
         text:
+create_time_entry:
+  name: Create completed time entry
+  description: Create a Clockify time entry with explicit start and end times.
+  fields:
+    project_id:
+      name: Project ID
+      required: true
+      selector:
+        text:
+    description:
+      name: Description
+      required: false
+      selector:
+        text:
+    start:
+      name: Start
+      required: true
+      selector:
+        datetime:
+    end:
+      name: End
+      required: true
+      selector:
+        datetime:
+    tag_ids:
+      name: Tag IDs
+      required: false
+      selector:
+        text:
+          multiple: true
+    workspace_id:
+      name: Workspace ID
+      required: false
+      selector:
+        text:
