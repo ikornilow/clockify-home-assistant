@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Clockify",
+        "description": "Create an API key in your Clockify profile settings, choose your workspace's server region, and enter the key below.",
+        "data": {
+          "api_key": "API key",
+          "api_host": "Clockify server / region"
+        }
+      },
+      "workspace": {
+        "title": "Choose a workspace",
+        "data": {
+          "workspace_id": "Workspace"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Clockify rejected this API key.",
+      "cannot_connect": "Unable to connect to Clockify.",
+      "no_workspaces": "This account has no accessible workspace."
+    }
+  }
+}

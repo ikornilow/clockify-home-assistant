@@ -1,0 +1,32 @@
+start_timer:
+  name: Start timer
+  description: Start a Clockify timer in the configured workspace.
+  fields:
+    project_id:
+      name: Project ID
+      description: Clockify project; defaults to input_text.default_clockify_project.
+      required: false
+      selector:
+        text:
+    description:
+      name: Description
+      description: Entry description; defaults to the previous entry description.
+      required: false
+      selector:
+        text:
+    workspace_id:
+      name: Workspace ID
+      description: Required only when multiple Clockify workspaces are configured.
+      required: false
+      selector:
+        text:
+stop_timer:
+  name: Stop timer
+  description: Stop the running Clockify timer in the configured workspace.
+  fields:
+    workspace_id:
+      name: Workspace ID
+      description: Required only when multiple Clockify workspaces are configured.
+      required: false
+      selector:
+        text:
