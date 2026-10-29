@@ -23,7 +23,10 @@ When Home Assistant Cloud (Nabu Casa) is connected, the integration registers Cl
 
 ### HACS custom repository
 
-1. After publishing this repository to GitHub, add it in HACS as an **Integration** custom repository.
+**This repository is currently private. HACS cannot use private GitHub repositories ([HACS documentation](https://www.hacs.xyz/docs/faq/private_repositories/)), so use the manual installation below while it remains private.**
+
+Once the repository is public, follow these steps:
+1. Add this repository in HACS as an **Integration** custom repository.
 2. Install **Clockify-HA** and restart Home Assistant.
 3. Open **Settings → Devices & services → Add integration → Clockify-HA**.
 4. Create an API key in Clockify profile settings, enter it, and select a workspace.
@@ -55,7 +58,7 @@ Commit messages must follow Conventional Commits, for example `feat(sensor): add
 
 On pushes to `main`, GitHub Actions checks commits since the latest version tag and applies the highest required SemVer bump: `feat` → minor, `fix`/`perf`/`revert` → patch, and `!` or `BREAKING CHANGE:` → major. Other commit types do not change the version. The workflow updates `manifest.json` and `CHANGELOG.md`, then commits and tags the release. It needs write access to `main`; branch protection must allow the workflow's release commit.
 
-After the first repository commit, create the initial tag matching the current manifest version (currently `v0.4.1`) before enabling automatic bumps. Install the local commit hook with `git config core.hooksPath .githooks`.
+The repository is initialized on `main` and has the initial `v0.4.1` tag. To enable the local commit hook in a clone, run `git config core.hooksPath .githooks`.
 
 ## AI assistance
 
