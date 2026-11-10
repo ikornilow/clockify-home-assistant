@@ -54,7 +54,7 @@ The API key is stored in Home Assistant's config entry and sent in the `X-Api-Ke
 
 Commit messages must follow Conventional Commits, for example `feat(sensor): add weekly total` or `fix: handle empty response`. Messages beginning with `WIP` (case-insensitive, followed by a space, colon, or end of message) are allowed and do not trigger a version bump.
 
-On pushes to `main`, GitHub Actions checks commits since the latest version tag and applies the highest required SemVer bump: `feat` → minor, `fix`/`perf`/`revert` → patch, and `!` or `BREAKING CHANGE:` → major. Other commit types do not change the version. The workflow updates `manifest.json` and `CHANGELOG.md`, then commits and tags the release. It needs write access to `main`; branch protection must allow the workflow's release commit.
+On pushes to `main`, GitHub Actions checks commits since the latest version tag and applies the highest required SemVer bump: `feat` → minor, `fix`/`perf`/`revert` → patch, and `!` or `BREAKING CHANGE:` → major. Other commit types do not change the version. The workflow updates `manifest.json` and `CHANGELOG.md`, then commits and tags the release. It needs write access to `main`; if `main` is protected by a repository ruleset, add the GitHub Actions app as a bypass actor for this release workflow.
 
 The repository is initialized on `main` and has the initial `v0.4.1` tag. To enable the local commit hook in a clone, run `git config core.hooksPath .githooks`.
 
